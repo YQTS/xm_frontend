@@ -49,7 +49,7 @@ import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElRow, ElCol, ElIcon, 
 import { reactive, ref } from 'vue'
 import { useUserStore } from '@/store/module/user';
 import { storeToRefs } from 'pinia';
-import { getCode } from '@/api/user';
+import { getCode, login } from '@/api/user';
 
 const userStore = useUserStore()
 
@@ -81,19 +81,30 @@ const rules = reactive({
     ]
 })
 
-const getCodeHandler = () => {
-    getCode({ phone: loginForm.phone }).then(
-        res => {
-            console.log('这是res', res)
-            if (res.data === 'true') {
-                ElMessage.success('验证码发送成功')
-            }
+const getCodeHandler = async () => {
+    if (!loginFormRef) return
+    const loading = ElLoading.service({
+        lock: true,
+        text: "登录中...",
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+    await loginFormRef.value.validate((valid, field) => {
+        if (valid) {
+            getCode({ phone: loginForm.phone }).then(
+                res => {
+                    if (res.data) {
+                        ElMessage.success('验证码发送成功')
+                    }
+                }
+            ).catch(
+                err => {
+                    return Promise.reject(err)
+                }
+            )
         }
-    ).catch(
-        err => {
-            return Promise.reject(err)
-        }
-    )
+    })
+    loading.close()
+
 }
 
 const handleLogin = async () => {
@@ -105,7 +116,14 @@ const handleLogin = async () => {
     })
     await loginFormRef.value.validate((valid, field) => {
         if (valid) {
-
+            login(loginForm.phone, loginForm.code).then(
+                res => {
+                    ElMessage.success('登录成功')
+                    userStore.userName = res.data.user.nick
+                    userStore.avatarUrl = res.data.user.imgUrl
+                    console.log('这是res', res)
+                }
+            )
 
         }
 
