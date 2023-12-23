@@ -14,7 +14,7 @@
             </div>
             <div class="rp">
                 <div class="bp" @click="setTheme">Aa</div>
-                <div class="bp" v-if="!token">
+                <div class="bp" v-if="!phoneNumber">
                     <Login></Login>
                 </div>
                 <div class="bp userInfo" v-else>
@@ -44,7 +44,7 @@ import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore()
 
-const { token, userName, avatarUrl } = storeToRefs(userStore)
+const { userName, phoneNumber, avatarUrl } = storeToRefs(userStore)
 
 const setTheme = () => {
     const htmlNode = document.documentElement

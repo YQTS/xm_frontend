@@ -88,21 +88,19 @@ const getCodeHandler = async () => {
         text: "登录中...",
         background: 'rgba(0, 0, 0, 0.7)'
     })
-    await loginFormRef.value.validate((valid, field) => {
-        if (valid) {
-            getCode({ phone: loginForm.phone }).then(
-                res => {
-                    if (res.data) {
-                        ElMessage.success('验证码发送成功')
-                    }
+    if (reg.test(loginForm.phone)) {
+        getCode({ phoneNumber: loginForm.phone }).then(
+            res => {
+                if (res.data) {
+                    ElMessage.success('验证码发送成功')
                 }
-            ).catch(
-                err => {
-                    return Promise.reject(err)
-                }
-            )
-        }
-    })
+            }
+        ).catch(
+            err => {
+                return Promise.reject(err)
+            }
+        )
+    }
     loading.close()
 
 }
@@ -119,8 +117,9 @@ const handleLogin = async () => {
             login(loginForm.phone, loginForm.code).then(
                 res => {
                     ElMessage.success('登录成功')
-                    userStore.userName = res.data.user.nick
-                    userStore.avatarUrl = res.data.user.imgUrl
+                    userStore.userName = res.data.user.nick || ''
+                    userStore.avatarUrl = res.data.user.imgUrl || ''
+                    userStore.phoneNumber = res.data.user.phoneNumber || ''
                     console.log('这是res', res)
                 }
             )
