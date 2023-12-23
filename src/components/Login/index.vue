@@ -63,9 +63,8 @@ const loginForm = reactive({
     phone: '',
     code: ''
 })
-
+const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
 const phoneValidate = (rule, value, cb) => {
-    const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
     if (reg.test(loginForm.phone)) cb()
     cb(new Error('请输入有效的手机号'))
 }
@@ -77,7 +76,7 @@ const rules = reactive({
     ],
     code: [
         { required: true, message: '请输入验证码', trigger: 'blur' },
-        { min: 4, max: 4, message: '验证码错误', trigger: 'blur' }
+        { min: 5, max: 5, message: '验证码错误', trigger: 'blur' }
     ]
 })
 
