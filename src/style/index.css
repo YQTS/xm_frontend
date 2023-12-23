@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+:root {
+    --theme-color: #f5f5f5;
+    --themt-text-color: #000;
+    --theme-color-r: #000;
+    --header-bg: #f5f5f5;
+    --header-hover: #e7e5e5;
+}
+
+.light {
+    --theme-color: #f5f5f5;
+    --themt-text-color: #000;
+    --theme-color-r: #000;
+    --header-bg: #ededed;
+    --header-hover: #e2e2e2;
+}
+
+.dark {
+    --theme-color: #323232;
+    --theme-text-color: #fff;
+    --theme-color-r: #fff;
+    --header-bg: #212121;
+    --header-hover: #2f2f2f;
+}
+
+@font-face {
+    font-family: 'ink';
+    src: url('@/assets/font/inkFont.ttf') format('truetype');
+}

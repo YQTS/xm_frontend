@@ -1,20 +1,57 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'root',
+    redirect: '/share',
+    component: () => import('@/Layout/Layout.vue'),
+    children: [
+      {
+        path: '/share',
+        name: 'share',
+        component: () => import('@/views/Share/Share.vue')
+      },
+      {
+        path: '/food',
+        name: 'food',
+        component: () => import('@/views/Food/Food.vue')
+      },
+      {
+        path: '/foodSpecific',
+        name: 'foodspecific',
+        component: () => import('@/views/FoodSpecific/FoodSpecific.vue')
+      },
+      {
+        path: '/foodComment',
+        name: 'foodComment',
+        component: () => import('@/views/FoodComment/FoodComment.vue')
+      },
+      {
+        path: '/commentSuccess',
+        name: 'commentsuccess',
+        component: () => import('@/views/CommentSuccess/CommentSuccess.vue')
+      },
+      {
+        path: '/userInfo',
+        name: 'userInfo',
+        redirect: '/userInfo/basicInfo',
+        component: () => import('@/views/UserInfo/UserInfo.vue'),
+        children: [
+          {
+            path: '/userInfo/basicInfo',
+            name: 'basicInfo',
+            component: () => import('@/views/UserInfo/components/BasicInfo.vue')
+          },
+          {
+            path: '/userInfo/article',
+            name: 'article',
+            component: () => import('@/views/UserInfo/components/Article.vue')
+          }
+        ]
+      }
+    ]
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
 ]
 
 const router = createRouter({
