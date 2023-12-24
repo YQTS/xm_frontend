@@ -57,7 +57,7 @@ const setTheme = () => {
 
 const loginOut = () => {
     userStore.$reset()
-    localStorage.removeItem('token')
+    localStorage.removeItem('phoneNumber')
     console.log(userStore)
 }
 

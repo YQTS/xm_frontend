@@ -4,40 +4,40 @@
         <div class="FoodSpecific">
             <div class="images">
                 <div class="bigImage">
-                    <img :src="bigUrl">
+                    <img :src="foodInfo.list[0]">
                 </div>
                 <div class="smallImage">
-                    <img v-for="item in images" :key="item" :src="item" @click="item => bigUrl.value = item">
+                    <img v-for="item in foodInfo.list" :key="item" :src="item" @click="item => bigUrl.value = item">
                 </div>
             </div>
             <div class="foodDetail">
                 <div class="row">
                     <div class="name">
-                        <span class="title">{{ foodInfo.name }}</span>
+                        <span class="title">{{ foodInfo.dish.name }}</span>
                         <div class="location">
                             <el-icon color="#A3B745">
                                 <Location />
                             </el-icon>
-                            <span>{{ foodInfo.location }}</span>
+                            <span>{{ foodInfo.store.address }}</span>
                         </div>
                         <div class="rate">
                             <span>评分:</span>
-                            <span class="score">{{ foodInfo.rate }}</span>
+                            <span class="score">{{ foodInfo.dish.score }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="row feature">
-                    <span v-for="item in foodInfo.feature">{{ item }}</span>
+                    <span>{{ foodInfo.dish.laId }}</span>
                 </div>
                 <div class="row">
                     <div class="shop">
                         <span>店铺名:</span>
-                        <span>{{ foodInfo.shop }}</span>
+                        <span>{{ foodInfo.store.name }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <p>
-                        {{ foodInfo.introduction }}
+                        {{ foodInfo.dish.introduction }}
                     </p>
                 </div>
                 <div class="row">
@@ -56,6 +56,7 @@
                         <el-icon color="#A3B745" size="30">
                             <Notebook />
                         </el-icon>
+                        <span>8</span>
                     </div>
                 </div>
             </div>
@@ -67,41 +68,39 @@
 import { ElRow, ElCol, ElIcon, ElButton } from 'element-plus'
 import { ref, reactive, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { getDish } from '@/api/dish';
 
 const route = useRoute()
 
 const router = useRouter()
 
-const images = ref([
-    require('@/assets/food1.jpeg'),
-    require('@/assets/food1.jpeg'),
-    require('@/assets/food1.jpeg')
-])
-
-const bigUrl = images.value[0]
-
 const currentRate = ref(0)
 
+const foodInfo = ref({})
 
-const foodInfo = reactive({
-    id: '0',
-    imgUrl: ['@/assets/food1.jpeg'],
-    name: '黄焖鸡米饭',
-    shop: '老乡鸡',
-    feature: ['咸口', '微辣'],
-    blogTotal: 8,
-    createDate: '2023/12/20',
-    location: '西苑新食堂一楼',
-    introduction: '黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭',
-    rate: 9.8
-})
+const getDishHandler = () => {
+    if (route.query?.id) {
+        getDish(route.query.id).then(
+            res => {
+                foodInfo.value = res.data.dishDto
+            }
+        ).catch(
+            err => {
+                return new Error(err)
+            }
+        )
+    }
+}
+
+getDishHandler()
+
 
 const handleComment = () => {
     const foodQuery = {
-        name: foodInfo.name,
-        img: foodInfo.imgUrl[0],
-        shop: foodInfo.shop,
-        location: foodInfo.location
+        name: foodInfo.dish.name,
+        img: foodInfo.list[0],
+        shop: foodInfo.store.name,
+        location: foodInfo.store.address
     }
     router.push({
         path: '/foodComment',

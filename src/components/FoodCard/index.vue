@@ -2,34 +2,35 @@
 <template>
     <div class="card">
         <div class="foodImg">
-            <img src="@/assets/food1.jpeg" @click="$router.push({ path: '/foodSpecific', query: { id: food.id } })" />
+            <img src="@/assets/food1.jpeg"
+                @click="$router.push({ path: '/foodSpecific', query: { id: food.dishDto.dish.id } })" />
         </div>
         <div class="foodInfo">
             <div class=" infoItem feature">
-                <span v-for="item in food.feature">{{ item }}</span>
+                <span>{{ food.dishDto.dish.laId }}</span>
             </div>
-            <div class=" infoItem name">{{ food.name }}</div>
+            <div class=" infoItem name">{{ food.dishDto.dish.name }}</div>
             <div class="infoItem location">
                 <el-icon>
                     <Location color="#A3B745" />
                 </el-icon>
-                <span style="margin-left: 2px;">{{ food.location }}</span>
+                <span style="margin-left: 2px;">{{ food.store.address }}</span>
             </div>
             <div class=" infoItem detail">
-                <div class="detailItem">
+                <!-- <div class="detailItem">
                     <el-icon>
                         <Clock color="#A3B745" />
                     </el-icon>
-                    <span style="margin-left: 2px;">{{ food.createDate }}</span>
-                </div>
-                <div class="detailItem">
+                    <span style="margin-left: 2px;">{{ food.createDate}}</span>
+                </div> -->
+                <!-- <div class="detailItem">
                     <el-icon>
                         <Notebook color="#A3B745" />
                     </el-icon>
                     <span style="margin-left: 2px;">
-                        {{ food.blogTotal }}
+                        {{ food.articleNum }}
                     </span>
-                </div>
+                </div> -->
 
             </div>
 

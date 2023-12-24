@@ -41,63 +41,9 @@ import FoodCard from '@/components/FoodCard';
 import { ElPagination } from 'element-plus';
 import { reactive, ref, watch, toRef } from 'vue';
 import { usePagination } from '@/hooks/usePagination'
+import { getDishList } from '@/api/dish'
 
-const rows = ref([
-    {
-        id: '0',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '黄焖鸡米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    },
-    {
-        id: '1',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '黄焖鸡米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    },
-    {
-        id: '2',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '黄焖鸡米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    },
-    {
-        id: '3',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '黄焖鸡米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    },
-    {
-        id: '4',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭黄焖鸡米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    },
-    {
-        id: '5',
-        imgUrl: '@/assets/food1.jpeg',
-        name: '哇相机米饭',
-        feature: ['咸口', '微辣'],
-        blogTotal: 8,
-        createDate: '2023/12/20',
-        location: '西苑新食堂一楼'
-    }
-])
+const rows = ref([])
 
 const rows_1 = ref([])
 const rows_2 = ref([])
@@ -140,7 +86,16 @@ watch(
 watch(
     () => toRef(paginationInfo, 'currentPage'),
     (v) => {
-        console.log('变了', v.value)
+        getDishList(paginationInfo.pageSize, v).then(
+            res => {
+                rows.value = res.data.records
+            }
+        ).catch(
+            err => new Error(err)
+        )
+    },
+    {
+        immediate: true
     }
 )
 

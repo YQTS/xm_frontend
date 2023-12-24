@@ -9,7 +9,7 @@
                 </div>
                 <div class="item">
                     <el-icon :size="25">
-                        <Notebook color="#A3B745" />
+                        <Notebook />
                     </el-icon>
                     <router-link class="optionList" :to="{ name: 'article' }"
                         active-class="optionList-active">我的文章</router-link>
@@ -63,6 +63,7 @@
     align-items: center;
     width: 55%;
     margin-top: 10%;
+    gap: 1rem;
 
     &:hover {
         font-weight: 600;
@@ -71,7 +72,6 @@
     >img {
         width: 25px;
         height: 25px;
-        margin-right: 1rem;
     }
 
     >.optionList-active {

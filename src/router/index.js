@@ -49,6 +49,11 @@ const routes = [
             component: () => import('@/views/UserInfo/components/Article.vue')
           }
         ]
+      },
+      {
+        path: '/commentDetail',
+        name: 'commentDetail',
+        component: () => import('@/views/CommentDetail/CommentDetail')
       }
     ]
   },

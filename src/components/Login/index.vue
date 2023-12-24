@@ -116,9 +116,9 @@ const handleLogin = async () => {
             login(loginForm.phone, loginForm.code).then(
                 res => {
                     ElMessage.success('登录成功')
-                    userStore.userName = res.data.user.nick || ''
-                    userStore.avatarUrl = res.data.user.imgUrl || ''
-                    userStore.phoneNumber = res.data.user.phoneNumber || ''
+                    userName.value = res.data.user.nick || ''
+                    avatarUrl.value = res.data.user.imgUrl || ''
+                    phoneNumber.value = res.data.user.phoneNumber || ''
                     console.log('这是res', res)
                 }
             )

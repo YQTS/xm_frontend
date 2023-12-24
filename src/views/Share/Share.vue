@@ -37,7 +37,6 @@
 </template>
 
 <script  setup>
-import FoodCard from '@/components/FoodCard';
 import { ElPagination } from 'element-plus';
 import { reactive, ref, watch, toRef } from 'vue';
 import CommentCard from '@/components/CommentCard'
@@ -137,7 +136,6 @@ watch(
     () => rows.value,
     () => {
         rows.value.map((item, index) => {
-            console.log(index % 5)
             switch (index % 5) {
                 case 0:
                     rows_1.value.push(item)

@@ -18,7 +18,8 @@
             </div>
         </div>
         <div class="cardItem article">
-            <p>{{ article.content }}</p>
+            <p @click="() => $router.push({ path: '/commentDetail', query: { articleId: article.id } })">{{ article.content
+            }}</p>
         </div>
         <div class="cardItem aInfo">
             <div class="star">
@@ -144,7 +145,6 @@ const props = defineProps({
             display: flex;
             align-items: center;
             gap: 5px;
-            cursor: pointer;
         }
 
         .date {
