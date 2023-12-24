@@ -85,8 +85,8 @@ watch(
 
 watch(
     () => toRef(paginationInfo, 'currentPage'),
-    (v) => {
-        getDishList(paginationInfo.pageSize, v).then(
+    () => {
+        getDishList(paginationInfo.pageSize, paginationInfo.currentPage).then(
             res => {
                 rows.value = res.data.records
             }

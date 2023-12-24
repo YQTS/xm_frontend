@@ -3,7 +3,7 @@
     <div class="card">
         <div class="foodImg">
             <img src="@/assets/food1.jpeg"
-                @click="$router.push({ path: '/foodSpecific', query: { id: food.dishDto.dish.id } })" />
+                @click="$router.push({ path: '/foodSpecific', query: { id: food.dishDto.dish.dishId } })" />
         </div>
         <div class="foodInfo">
             <div class=" infoItem feature">

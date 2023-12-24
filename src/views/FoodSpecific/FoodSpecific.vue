@@ -4,7 +4,8 @@
         <div class="FoodSpecific">
             <div class="images">
                 <div class="bigImage">
-                    <img :src="foodInfo.list[0]">
+                    <!-- <img :src="foodInfo.list[0]"> -->
+                    <!-- <img :src="foodInfo.list[0]"> -->
                 </div>
                 <div class="smallImage">
                     <img v-for="item in foodInfo.list" :key="item" :src="item" @click="item => bigUrl.value = item">
@@ -13,7 +14,7 @@
             <div class="foodDetail">
                 <div class="row">
                     <div class="name">
-                        <span class="title">{{ foodInfo.dish.name }}</span>
+                        <span class="title">{{ foodInfo.dishDto.dish.name }}</span>
                         <div class="location">
                             <el-icon color="#A3B745">
                                 <Location />
@@ -22,12 +23,12 @@
                         </div>
                         <div class="rate">
                             <span>评分:</span>
-                            <span class="score">{{ foodInfo.dish.score }}</span>
+                            <span class="score">{{ foodInfo.dishDto.dish.score }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="row feature">
-                    <span>{{ foodInfo.dish.laId }}</span>
+                    <span>{{ foodInfo.dishDto.dish.laId }}</span>
                 </div>
                 <div class="row">
                     <div class="shop">
@@ -37,7 +38,7 @@
                 </div>
                 <div class="row">
                     <p>
-                        {{ foodInfo.dish.introduction }}
+                        {{ foodInfo.dishDto.dish.introduction }}
                     </p>
                 </div>
                 <div class="row">
@@ -76,13 +77,36 @@ const router = useRouter()
 
 const currentRate = ref(0)
 
-const foodInfo = ref({})
+const foodInfo = ref({
+    dishDto: {
+        dish: {
+            dishId: 1,
+            name: '',
+            laId: 1,
+            introduction: "",
+            score: 0,
+            numScore: 20,
+            state: 1,
+            stordId: 1
+        },
+        list: [],
+    },
+    store: {
+        name: '',
+        img: null,
+        address: "",
+        score: 9,
+        state: 1,
+        storeId: 1
+    }
+})
 
 const getDishHandler = () => {
     if (route.query?.id) {
         getDish(route.query.id).then(
             res => {
-                foodInfo.value = res.data.dishDto
+                console.log(res.data)
+                foodInfo.value = res.data
             }
         ).catch(
             err => {
@@ -96,11 +120,12 @@ getDishHandler()
 
 
 const handleComment = () => {
+    console.log(foodInfo.value)
     const foodQuery = {
-        name: foodInfo.dish.name,
-        img: foodInfo.list[0],
-        shop: foodInfo.store.name,
-        location: foodInfo.store.address
+        name: foodInfo.value.dishDto.dish.name,
+        img: foodInfo.value.dishDto.list[0],
+        shop: foodInfo.value.store.name,
+        location: foodInfo.value.store.address
     }
     router.push({
         path: '/foodComment',
