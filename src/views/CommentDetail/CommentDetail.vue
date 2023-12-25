@@ -44,7 +44,10 @@
 
 <script setup>
 import { ElIcon } from 'element-plus';
-// 根据文章id获取信息
+import { useRoute } from 'vue-router'
+
+
+const route = useRoute()
 </script>
 <style scoped lang="less">
 .bg {

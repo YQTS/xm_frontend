@@ -4,8 +4,11 @@ export const useUserStore = defineStore("user", {
     state: () => {
         return {
             userName: '',
+            gender: '',
             avatarUrl: '',
-            phoneNumber: ''
+            phoneNumber: '',
+            userId: '',
+            birthday: '',
         }
     }
 })

@@ -53,7 +53,7 @@ import { getCode, login } from '@/api/user';
 
 const userStore = useUserStore()
 
-const { userName, avatarUrl, token } = storeToRefs(userStore)
+const { userName, avatarUrl, phoneNumber, userId } = storeToRefs(userStore)
 
 const dialogVisible = ref(false)
 
@@ -116,10 +116,11 @@ const handleLogin = async () => {
             login(loginForm.phone, loginForm.code).then(
                 res => {
                     ElMessage.success('登录成功')
-                    userName.value = res.data.user.nick || ''
-                    avatarUrl.value = res.data.user.imgUrl || ''
-                    phoneNumber.value = res.data.user.phoneNumber || ''
-                    console.log('这是res', res)
+                    userName.value = res.data.user?.nick || ''
+                    avatarUrl.value = res.data.user?.imgUrl || ''
+                    phoneNumber.value = res.data.user?.phoneNumber || ''
+                    userId.value = res.data.user?.userId || ''
+                    localStorage.setItem('phoneNumber', phoneNumber.value)
                 }
             )
 

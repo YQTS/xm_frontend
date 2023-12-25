@@ -40,13 +40,23 @@
 <script setup>
 import { ElForm, ElButton, ElRow, ElCol, ElFormItem, ElInput } from 'element-plus';
 import { reactive } from 'vue';
+import { useUserStore } from '@/store/module/user'
+import { storeToRefs } from 'pinia';
+import { getUserByPhone } from '@/api/user'
+
+const userStore = useUserStore()
+
+const { phoneNumber, userName, birthday, gender } = storeToRefs(userStore)
 
 const userBasicInfo = reactive({
-    nick: '未设置',
-    gender: '男',
-    birthday: '2001/01/01',
-    phoneNumber: ''
+    nick: userName.value,
+    gender: gender.value,
+    birthday: birthday.value,
+    phoneNumber: phoneNumber.value
 })
+
+
+
 
 </script>
 <style scoped lang="less">

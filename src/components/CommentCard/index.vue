@@ -1,9 +1,9 @@
 <!--  -->
 <template>
     <div class="card">
-        <div class="cardItem user">
+        <div class="cardItem user" v-if="showUser">
             <img src="@/assets/food1.jpeg" />
-            <span>{{ article.user }}</span>
+            <span>{{ user.nick }}</span>
         </div>
         <div class="cardItem food">
             <img src="@/assets/food1.jpeg" />
@@ -17,8 +17,9 @@
                 </div>
             </div>
         </div>
-        <div class="cardItem article">
-            <p @click="() => $router.push({ path: '/commentDetail', query: { articleId: article.id } })">{{ article.content
+        <div class="cardItem article" @click="$emit('clickArticle', article.articleId)">
+            <p>{{
+                article.text
             }}</p>
         </div>
         <div class="cardItem aInfo">
@@ -32,7 +33,7 @@
                 <el-icon :size="20">
                     <Clock color="#A3B745" />
                 </el-icon>
-                <span style="margin-left: 2px;">{{ article.createTime }}</span>
+                <span style="margin-left: 2px;">{{ article.createDate }}</span>
             </div>
         </div>
     </div>
@@ -46,12 +47,23 @@ const props = defineProps({
         required: true,
         default: () => { }
     },
+    user: {
+        type: Object,
+        default: () => { }
+    },
     food: {
         type: Object,
         required: true,
         default: () => { }
+    },
+    showUser: {
+        type: Boolean,
+        default: true
     }
 })
+
+console.log(props.article)
+
 </script>
 <style scoped lang="less">
 .card {

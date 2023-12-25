@@ -36,19 +36,46 @@
 import { ElForm, ElButton, ElFormItem, ElInput, ElMessage } from 'element-plus'
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+import { uploadArticle } from '@/api/comment'
+import { useUserStore } from '@/store/module/user';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute()
+
+const foodId = route.query.id
+
+console.log(route)
+
+
+
 const router = useRouter()
 
 const foodInfo = ref(route.query)
 
+const userStore = useUserStore()
+const { userId } = storeToRefs(userStore)
+
 const commentContent = ref('')
 
 const upload = () => {
-    ElMessage.success('发布成功')
-    router.push({
-        path: 'commentSuccess'
-    })
+    let params = {
+        userId: userId.value,
+        dishId: foodId,
+        text: commentContent.value
+    }
+    uploadArticle(params).then(
+        res => {
+            if (res.data) {
+                ElMessage.success(res.data)
+                router.push({
+                    path: 'commentSuccess'
+                })
+            }
+        }
+    ).catch(
+        err => new Error(err)
+    )
+
 }
 
 </script>

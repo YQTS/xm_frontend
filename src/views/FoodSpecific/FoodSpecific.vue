@@ -121,15 +121,11 @@ getDishHandler()
 
 const handleComment = () => {
     console.log(foodInfo.value)
-    const foodQuery = {
-        name: foodInfo.value.dishDto.dish.name,
-        img: foodInfo.value.dishDto.list[0],
-        shop: foodInfo.value.store.name,
-        location: foodInfo.value.store.address
-    }
     router.push({
         path: '/foodComment',
-        query: foodQuery
+        query: {
+            id: foodInfo.value.dishDto.dish.dishId
+        }
     })
 }
 

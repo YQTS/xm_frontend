@@ -4,27 +4,32 @@
         <div class="commentShow">
             <div class="commentShowItem">
                 <div v-for="item in rows_1">
-                    <CommentCard :food="item.food" :article="item.article"></CommentCard>
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_2">
-                    <CommentCard :food="item.food" :article="item.article"></CommentCard>
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_3">
-                    <CommentCard :food="item.food" :article="item.article"></CommentCard>
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_4">
-                    <CommentCard :food="item.food" :article="item.article"></CommentCard>
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_5">
-                    <CommentCard :food="item.food" :article="item.article"></CommentCard>
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    </CommentCard>
                 </div>
             </div>
         </div>
@@ -41,87 +46,14 @@ import { ElPagination } from 'element-plus';
 import { reactive, ref, watch, toRef } from 'vue';
 import CommentCard from '@/components/CommentCard'
 import { usePagination } from '@/hooks/usePagination'
+import { useRouter } from 'vue-router';
+import { getArticleList } from '@/api/comment'
 
-const rows = ref([
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    },
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    },
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    },
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    },
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    },
-    {
-        article: {
-            user: '缘起庭树',
-            createTime: '2023/12/23',
-            content: '这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容这是文章内容'
-        },
-        food: {
-            name: '黄焖鸡米饭',
-            img: [],
-            shop: '青海老乡鸡',
-            location: '西苑新食堂一楼'
-        }
-    }
-])
+
+
+const rows = ref([])
+
+const router = useRouter()
 
 const rows_1 = ref([])
 const rows_2 = ref([])
@@ -130,6 +62,23 @@ const rows_4 = ref([])
 const rows_5 = ref([])
 
 const { paginationInfo } = usePagination()
+
+getArticleList(paginationInfo.pageSize, paginationInfo.currentPage).then(
+    res => {
+        rows.value = res.data.records
+    }
+).catch(
+    err => new Error(err)
+)
+
+const go2Detail = (id) => {
+    console.log('id', id)
+    router.push({
+        path: '/CommentDetail', query: {
+            id: id
+        }
+    })
+}
 
 
 watch(

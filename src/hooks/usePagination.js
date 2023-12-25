@@ -8,11 +8,6 @@ export const usePagination = () => {
         currentPage: 1
     })
 
-    onMounted(() => {
-        // 发请求
-        paginationInfo.total = 100
-    })
-
     return {
         paginationInfo
     }

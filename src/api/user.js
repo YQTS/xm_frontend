@@ -8,4 +8,9 @@ export const login = (phone, code) => {
     return request.get(`/xm/user/login/${phone}/${code}`)
 }
 
+export const getUserByPhone = (phone) => {
+    return request.get(`/xm/user/getUserByPhoneNumber/${phone}`)
+}
+
+
 
