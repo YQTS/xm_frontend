@@ -3,7 +3,7 @@
     <div class="basicInfo">
         <ElRow>
             <ElCol>
-                <img style="width: 200px; height: 200px; border-radius: 50%;" :src="userBasicInfo.avatarUrl" />
+                <img style="width: 200px; height: 200px; border-radius: 50%;" :src="avatarUrl" />
             </ElCol>
         </ElRow>
         <ElRow>
@@ -44,29 +44,16 @@ import { useUserStore } from '@/store/module/user'
 import { storeToRefs } from 'pinia';
 import { getUserByPhone } from '@/api/user'
 
+const userStore = useUserStore()
+
+const { phoneNumber, userName, birthday, gender, avatarUrl } = storeToRefs(userStore)
+
 const userBasicInfo = reactive({
-    nick: '',
-    gender: '',
-    birthday: '',
-    phoneNumber: '',
-    avatarUrl: '',
+    nick: userName.value,
+    gender: gender.value,
+    birthday: birthday.value,
+    phoneNumber: phoneNumber.value
 })
-getUserByPhone(localStorage.getItem('phoneNumber')).then(
-    res => {
-        const user = res.data.user
-        userBasicInfo.nick = user.nick
-        userBasicInfo.gender = user.gender
-        userBasicInfo.birthday = user.birthday
-        userBasicInfo.userId = user.userId
-        userBasicInfo.avatarUrl = user.imageURL
-        console.log(res)
-    }
-).catch(
-    err => new Error(err)
-)
-
-
-console.log(userBasicInfo)
 
 
 
