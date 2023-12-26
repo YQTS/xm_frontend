@@ -11,3 +11,7 @@ export const getUserArticle = (userId, size, page) => {
 export const getArticleList = (size, page) => {
     return request.get(`/xm/article/list/${size}/${page}`)
 }
+
+export const getArticleById = (id, userId) => {
+    return request.get(`/xm/article/getArticleById?articleId=${id}&userId=${userId}`)
+}

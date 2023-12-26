@@ -5,13 +5,13 @@
             <div class="foodInfo">
                 <img src="@/assets/food1.jpeg" />
                 <div class="info">
-                    <div class="name">{{ foodInfo.name }}</div>
+                    <div class="name">{{ foodInfo.dish.name }}</div>
                     <div class="location">
                         <el-icon color="#A3B745">
                             <Location />
                         </el-icon>
-                        <span>{{ foodInfo.location }}</span>
-                        <span>({{ foodInfo.shop }})</span>
+                        <span>{{ foodInfo.address }}</span>
+                        <span>({{ foodInfo.storeName }})</span>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <ElForm>
                     <ElFormItem>
                         <ElInput :autosize="{ minRows: 4, maxRows: 8 }" type="textarea" placeholder="点评一下这道菜..."
-                            resize="none" v-model="commentContent" :minlength="5" :maxlength="200" show-word-limit />
+                            resize="none" v-model="commentContent" :minlength="5" :maxlength="400" show-word-limit />
                     </ElFormItem>
                     <ElFormItem>
                         <div class="btn">
@@ -39,23 +39,62 @@ import { useRoute, useRouter } from 'vue-router'
 import { uploadArticle } from '@/api/comment'
 import { useUserStore } from '@/store/module/user';
 import { storeToRefs } from 'pinia';
+import { getArticleById } from '@/api/comment';
+import { getDish } from '@/api/dish'
 
 const route = useRoute()
 
 const foodId = route.query.id
 
-console.log(route)
+const articleId = route.query.articleId
+const commentContent = ref('')
 
+const foodInfo = ref({
+    user: {
+        nick: ''
+    },
+    dish: {
+        name: ''
+    },
+    article: {
+        text: ''
+    },
+    address: '',
+    storeName: ''
+})
 
+if (articleId) {
+    getArticleById(articleId).then(
+        res => {
+            if (res.status === 200) {
+                commentContent.value = res.data.article.text
+                foodInfo.value = res.data
+            }
+        }
+    )
+}
+
+if (foodId) {
+    getDish(foodId).then(
+        res => {
+            if (res.status === 200) {
+                const data = res.data
+                foodInfo.value.dish.name = data.dishDto.dish.name
+                foodInfo.value.address = data.store.address
+                foodInfo.value.storeName = data.store.name
+            }
+        }
+    ).catch(
+        err => new Error(err)
+    )
+}
 
 const router = useRouter()
-
-const foodInfo = ref(route.query)
 
 const userStore = useUserStore()
 const { userId } = storeToRefs(userStore)
 
-const commentContent = ref('')
+
 
 const upload = () => {
     let params = {

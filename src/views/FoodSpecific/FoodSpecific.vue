@@ -4,11 +4,10 @@
         <div class="FoodSpecific">
             <div class="images">
                 <div class="bigImage">
-                    <!-- <img :src="foodInfo.list[0]"> -->
-                    <!-- <img :src="foodInfo.list[0]"> -->
+                    <img :src="bigURL">
                 </div>
                 <div class="smallImage">
-                    <img v-for="item in foodInfo.list" :key="item" :src="item" @click="item => bigUrl.value = item">
+                    <img v-for="item in foodInfo.list" :key="item" :src="item" @click="item => bigURL = item.imgUrl">
                 </div>
             </div>
             <div class="foodDetail">
@@ -23,12 +22,12 @@
                         </div>
                         <div class="rate">
                             <span>评分:</span>
-                            <span class="score">{{ foodInfo.dishDto.dish.score }}</span>
+                            <span class="score">{{ foodInfo.dishDto.dish.score }}分</span>
                         </div>
                     </div>
                 </div>
                 <div class="row feature">
-                    <span>{{ foodInfo.dishDto.dish.laId }}</span>
+                    <span>{{ foodInfo.dishDto.dish.laId === 1 ? '不辣' : '微辣' }}</span>
                 </div>
                 <div class="row">
                     <div class="shop">
@@ -51,7 +50,7 @@
                 <div class="row">
                     <ElButton type="success" style="width: 150px;" @click="handleComment">点评一下</ElButton>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="comment">
                         <span>相关点评:</span>
                         <el-icon color="#A3B745" size="30">
@@ -59,7 +58,7 @@
                         </el-icon>
                         <span>8</span>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -101,12 +100,15 @@ const foodInfo = ref({
     }
 })
 
+const bigURL = ref('')
+
 const getDishHandler = () => {
     if (route.query?.id) {
         getDish(route.query.id).then(
             res => {
                 console.log(res.data)
                 foodInfo.value = res.data
+                bigURL.value = foodInfo.dishDto.list[0].imgUrl
             }
         ).catch(
             err => {
@@ -155,7 +157,7 @@ const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900'])
 
         .row {
             &:not(:last-child) {
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
 
             .name {

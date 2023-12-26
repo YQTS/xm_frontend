@@ -2,12 +2,12 @@
 <template>
     <div class="card">
         <div class="foodImg">
-            <img src="@/assets/food1.jpeg"
+            <img :src="food.dishDto.list[0].imgUrl"
                 @click="$router.push({ path: '/foodSpecific', query: { id: food.dishDto.dish.dishId } })" />
         </div>
         <div class="foodInfo">
             <div class=" infoItem feature">
-                <span>{{ food.dishDto.dish.laId }}</span>
+                <span>{{ food.dishDto.dish.laId === 1 ? '不辣' : '微辣' }}</span>
             </div>
             <div class=" infoItem name">{{ food.dishDto.dish.name }}</div>
             <div class="infoItem location">

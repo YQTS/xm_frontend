@@ -58,7 +58,6 @@ watch(
     () => rows.value,
     () => {
         rows.value.map((item, index) => {
-            console.log(index % 5)
             switch (index % 5) {
                 case 0:
                     rows_1.value.push(item)
@@ -88,7 +87,13 @@ watch(
     () => {
         getDishList(paginationInfo.pageSize, paginationInfo.currentPage).then(
             res => {
+                rows_1.value = []
+                rows_2.value = []
+                rows_3.value = []
+                rows_4.value = []
+                rows_5.value = []
                 rows.value = res.data.records
+                paginationInfo.total = res.data.total
             }
         ).catch(
             err => new Error(err)
@@ -105,6 +110,7 @@ watch(
 .foodground {
     display: flex;
     flex-direction: column;
+    min-height: 80vh;
     gap: 80px;
     padding: 20px 80px;
 

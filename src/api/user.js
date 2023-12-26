@@ -12,5 +12,8 @@ export const getUserByPhone = (phone) => {
     return request.get(`/xm/user/getUserByPhoneNumber/${phone}`)
 }
 
+export const likeArticle = (userId, articleId) => {
+    return request.get(`/xm/article/likes?userId=${userId}&articleId=${articleId}`)
+}
 
 

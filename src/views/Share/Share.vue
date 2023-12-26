@@ -4,31 +4,36 @@
         <div class="commentShow">
             <div class="commentShowItem">
                 <div v-for="item in rows_1">
-                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" :address="item.address"
+                        :list="item.list" @clickArticle="go2Detail">
                     </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_2">
-                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" :address="item.address"
+                        :list="item.list" @clickArticle="go2Detail">
                     </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_3">
-                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" :address="item.address"
+                        :list="item.list" @clickArticle="go2Detail">
                     </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_4">
-                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" :address="item.address"
+                        :list="item.list" @clickArticle="go2Detail">
                     </CommentCard>
                 </div>
             </div>
             <div class="commentShowItem">
                 <div v-for="item in rows_5">
-                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" @clickArticle="go2Detail">
+                    <CommentCard :food="item.dish" :article="item.article" :user="item.user" :address="item.address"
+                        :list="item.list" @clickArticle="go2Detail">
                     </CommentCard>
                 </div>
             </div>
@@ -63,13 +68,6 @@ const rows_5 = ref([])
 
 const { paginationInfo } = usePagination()
 
-getArticleList(paginationInfo.pageSize, paginationInfo.currentPage).then(
-    res => {
-        rows.value = res.data.records
-    }
-).catch(
-    err => new Error(err)
-)
 
 const go2Detail = (id) => {
     console.log('id', id)
@@ -111,8 +109,23 @@ watch(
 
 watch(
     () => toRef(paginationInfo, 'currentPage'),
-    (v) => {
-        console.log('变了', v.value)
+    () => {
+        getArticleList(paginationInfo.pageSize, paginationInfo.currentPage).then(
+            res => {
+                rows_1.value = []
+                rows_2.value = []
+                rows_3.value = []
+                rows_4.value = []
+                rows_5.value = []
+                rows.value = res.data.records
+                paginationInfo.total = res.data.total
+            }
+        ).catch(
+            err => new Error(err)
+        )
+    },
+    {
+        immediate: true
     }
 )
 
@@ -122,6 +135,7 @@ watch(
 .shareground {
     display: flex;
     flex-direction: column;
+    min-height: 80vh;
     gap: 80px;
     padding: 20px 80px;
 

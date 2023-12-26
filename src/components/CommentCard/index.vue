@@ -2,38 +2,36 @@
 <template>
     <div class="card">
         <div class="cardItem user" v-if="showUser">
-            <img src="@/assets/food1.jpeg" />
+            <img :src="user.imageURL" />
             <span>{{ user.nick }}</span>
         </div>
-        <div class="cardItem food">
-            <img src="@/assets/food1.jpeg" />
+        <div class="cardItem food" @click="$router.push({ path: '/foodSpecific', query: { id: food.dishId } })">
+            <img :src="list[0].imgUrl" />
             <div class="detail">
                 <span class="foodName">{{ food.name }}</span>
                 <div class="location">
                     <el-icon>
                         <Location color="#A3B745" />
                     </el-icon>
-                    <span style="margin-left: 2px;">{{ food.location }}</span>
+                    <span style="margin-left: 2px;">{{ address }}</span>
                 </div>
             </div>
         </div>
         <div class="cardItem article" @click="$emit('clickArticle', article.articleId)">
-            <p>{{
-                article.text
-            }}</p>
+            <p>{{ articleContent }}</p>
         </div>
         <div class="cardItem aInfo">
             <div class="star">
                 <el-icon :size="20">
                     <Star color="#A3B745" />
                 </el-icon>
-                <span>8</span>
+                <span>{{ article.likes }}</span>
             </div>
             <div class="date">
                 <el-icon :size="20">
                     <Clock color="#A3B745" />
                 </el-icon>
-                <span style="margin-left: 2px;">{{ article.createDate }}</span>
+                <span style="margin-left: 2px;">{{ article.createDate || '2023/12/26' }}</span>
             </div>
         </div>
     </div>
@@ -41,6 +39,7 @@
 
 <script setup>
 import { ElIcon } from 'element-plus';
+import { watchEffect, ref, watch } from 'vue';
 const props = defineProps({
     article: {
         type: Object,
@@ -56,14 +55,43 @@ const props = defineProps({
         required: true,
         default: () => { }
     },
+    address: {
+        type: String,
+        default: () => ''
+    },
+    storeName: {
+        type: String,
+        default: () => ''
+    },
     showUser: {
         type: Boolean,
         default: true
+    },
+    list: {
+        type: Array,
+        default: () => [{
+            imgUrl: '/src/assets/food1.jpeg'
+        }]
     }
 })
 
-console.log(props.article)
+const articleContent = ref('')
 
+watch(
+    () => props.article,
+    () => {
+        const text = props.article.text ? props.article.text : '文章内容为空...'
+        if (text.length > 100) {
+            articleContent.value = text.substring(1, 100)
+        } else {
+            articleContent.value = text
+        }
+    },
+    {
+        immediate: true,
+        deep: true
+    }
+)
 </script>
 <style scoped lang="less">
 .card {
