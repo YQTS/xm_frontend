@@ -18,10 +18,10 @@
                     <Login></Login>
                 </div>
                 <div class="bp userInfo" v-else>
-                    <img src="@/assets/food1.jpeg" />
+                    <img :src="userBasicInfo.avatarUrl" />
                     <el-dropdown trigger="click">
                         <span>
-                            {{ userName }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                            {{ userBasicInfo.nick }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
                         </span>
                         <template #dropdown>
                             <el-dropdown-menu>
@@ -41,10 +41,25 @@ import router from '@/router';
 import Login from '@/components/Login'
 import { useUserStore } from '@/store/module/user';
 import { storeToRefs } from 'pinia';
+import { reactive } from 'vue'
+import { getUserByPhone } from '@/api/user'
 
-const userStore = useUserStore()
 
-const { userName, phoneNumber, avatarUrl } = storeToRefs(userStore)
+const phoneNumber = localStorage.getItem('phoneNumber')
+
+const userBasicInfo = reactive({
+    nick: '',
+    avatarUrl: '',
+})
+getUserByPhone(localStorage.getItem('phoneNumber')).then(
+    res => {
+        const user = res.data.user
+        userBasicInfo.nick = user.nick
+        userBasicInfo.avatarUrl = user.imageURL
+    }
+).catch(
+    err => new Error(err)
+)
 
 const setTheme = () => {
     const htmlNode = document.documentElement
@@ -58,7 +73,6 @@ const setTheme = () => {
 const loginOut = () => {
     userStore.$reset()
     localStorage.removeItem('phoneNumber')
-    console.log(userStore)
 }
 
 </script>

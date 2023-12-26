@@ -20,6 +20,8 @@ const userStore = useUserStore()
 const { phoneNumber, userName, gender, birthday, userId } = storeToRefs(userStore)
 
 router.beforeEach((to, from, next) => {
+    console.log('111')
+    console.log(localStorage.getItem('phoneNumber'))
     if (localStorage.getItem('phoneNumber')) {
         phoneNumber.value = localStorage.getItem('phoneNumber')
 
@@ -30,6 +32,7 @@ router.beforeEach((to, from, next) => {
                 gender.value = user.gender
                 birthday.value = user.birthday
                 userId.value = user.userId
+                avatarUrl.value = user.imageURL
                 console.log(res)
             }
         ).catch(
