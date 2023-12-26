@@ -1,7 +1,7 @@
 <!--  -->
 <template>
     <div class="card">
-        <div class="foodImg">
+        <div class="foodImg" v-if="food.dishDto.list[0].imgUrl">
             <img :src="food.dishDto.list[0].imgUrl"
                 @click="$router.push({ path: '/foodSpecific', query: { id: food.dishDto.dish.dishId } })" />
         </div>
@@ -48,6 +48,7 @@ const props = defineProps({
         default: () => { }
     }
 })
+
 
 </script>
 <style scoped lang="less">

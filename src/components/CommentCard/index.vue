@@ -70,7 +70,7 @@ const props = defineProps({
     list: {
         type: Array,
         default: () => [{
-            imgUrl: '/src/assets/food1.jpeg'
+
         }]
     }
 })

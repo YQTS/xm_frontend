@@ -7,7 +7,7 @@
                     <img :src="bigURL">
                 </div>
                 <div class="smallImage">
-                    <img v-for="item in foodInfo.list" :key="item" :src="item" @click="item => bigURL = item.imgUrl">
+                    <img v-for="item in foodInfo.dishDto.list" :key="item" :src="item.imgUrl" @click="switchPic(item)">
                 </div>
             </div>
             <div class="foodDetail">
@@ -106,9 +106,9 @@ const getDishHandler = () => {
     if (route.query?.id) {
         getDish(route.query.id).then(
             res => {
-                console.log(res.data)
+                console.log(res.data, '111')
                 foodInfo.value = res.data
-                bigURL.value = foodInfo.dishDto.list[0].imgUrl
+                bigURL.value = foodInfo.value.dishDto.list[0].imgUrl
             }
         ).catch(
             err => {
@@ -129,6 +129,10 @@ const handleComment = () => {
             id: foodInfo.value.dishDto.dish.dishId
         }
     })
+}
+
+const switchPic = (item) => {
+    bigURL.value = item.imgUrl
 }
 
 const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900'])

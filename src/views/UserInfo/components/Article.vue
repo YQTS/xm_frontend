@@ -4,7 +4,7 @@
         <div class="rows">
             <div class="article" v-for="item in commentRows" :key="item.article.articleId">
                 <CommentCard :showUser="false" :article="item.article" :food="item.dish" :address="item.address"
-                    @clickArticle="editArticle" />
+                    :list="item.list" @clickArticle="editArticle" />
             </div>
         </div>
         <div class="pagination">
