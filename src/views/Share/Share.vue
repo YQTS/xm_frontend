@@ -1,6 +1,6 @@
 <!-- 菜品路由 -->
 <template>
-    <div class="shareground">
+    <div class="shareground" v-loading="loading">
         <div class="commentShow">
             <div class="commentShowItem">
                 <div v-for="item in rows_1">
@@ -54,7 +54,7 @@ import { usePagination } from '@/hooks/usePagination'
 import { useRouter } from 'vue-router';
 import { getArticleList } from '@/api/comment'
 
-
+const loading = ref(true)
 
 const rows = ref([])
 
@@ -119,6 +119,7 @@ watch(
                 rows_5.value = []
                 rows.value = res.data.records
                 paginationInfo.total = res.data.total
+                loading.value = false
             }
         ).catch(
             err => new Error(err)

@@ -1,6 +1,6 @@
 <!-- 菜品路由 -->
 <template>
-    <div class="foodground">
+    <div class="foodground" v-loading="loading">
         <div class="foodShow">
             <div class="foodShowItem">
                 <div v-for="item in rows_1">
@@ -53,6 +53,7 @@ const rows_5 = ref([])
 
 const { paginationInfo } = usePagination()
 
+const loading = ref(true)
 
 watch(
     () => rows.value,
@@ -94,6 +95,7 @@ watch(
                 rows_5.value = []
                 rows.value = res.data.records
                 paginationInfo.total = res.data.total
+                loading.value = false
             }
         ).catch(
             err => new Error(err)

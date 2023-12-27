@@ -115,12 +115,16 @@ const handleLogin = async () => {
         if (valid) {
             login(loginForm.phone, loginForm.code).then(
                 res => {
-                    ElMessage.success('登录成功')
-                    userName.value = res.data.user?.nick || ''
-                    avatarUrl.value = res.data.user?.imgUrl || ''
-                    phoneNumber.value = res.data.user?.phoneNumber || ''
-                    userId.value = res.data.user?.userId || ''
-                    localStorage.setItem('phoneNumber', phoneNumber.value)
+                    if (res.data) {
+                        ElMessage.success('登录成功')
+                        userName.value = res.data.user?.nick || ''
+                        avatarUrl.value = res.data.user?.imgUrl || ''
+                        phoneNumber.value = res.data.user?.phoneNumber || ''
+                        userId.value = res.data.user?.userId || ''
+                        localStorage.setItem('phoneNumber', phoneNumber.value)
+                    } else {
+                        ElMessage.error('登录失败')
+                    }
                 }
             )
 

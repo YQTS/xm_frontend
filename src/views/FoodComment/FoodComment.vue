@@ -124,6 +124,7 @@ const upload = () => {
     justify-content: center;
     padding: 50px 250px;
     background-color: var(--theme-color);
+    min-height: 80vh;
 
     .mainArea {
         display: flex;

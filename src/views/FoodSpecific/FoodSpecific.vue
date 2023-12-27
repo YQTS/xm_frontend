@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-    <div class="FoodSpecificBg">
+    <div class="FoodSpecificBg" v-loading="loading">
         <div class="FoodSpecific">
             <div class="images">
                 <div class="bigImage">
@@ -76,6 +76,8 @@ const router = useRouter()
 
 const currentRate = ref(0)
 
+const loading = ref(true)
+
 const foodInfo = ref({
     dishDto: {
         dish: {
@@ -109,6 +111,7 @@ const getDishHandler = () => {
                 console.log(res.data, '111')
                 foodInfo.value = res.data
                 bigURL.value = foodInfo.value.dishDto.list[0].imgUrl
+                loading.value = false
             }
         ).catch(
             err => {

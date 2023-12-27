@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="star" @click="starArticle">
-                    <el-icon :size="25" v-if="!isStar">
+                    <el-icon :size="25" v-if="!formData.likesByMe">
                         <Star color="#A3B745" />
                     </el-icon>
                     <el-icon :size="25" v-else>
@@ -60,11 +60,11 @@ const formData = ref({
     article: {
         text: ''
     },
+    likesByMe: false,
     address: '',
     storeName: ''
 })
 
-const isStar = ref(false)
 
 const starArticle = () => {
     const userId = formData.value.user.userId
@@ -74,9 +74,7 @@ const starArticle = () => {
             res => {
                 if (res.status === 200) {
                     ElMessage.success(res.data)
-                    if (!isStar.value) {
-                        isStar.value = true
-                    }
+                    formData.value.likesByMe = true
                 }
             }
         ).catch(
