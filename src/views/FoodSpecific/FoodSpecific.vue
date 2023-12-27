@@ -153,6 +153,7 @@ const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900'])
     padding: 50px 0;
     border-radius: 50px;
     gap: 20px;
+    min-height: 80vh;
 
     .foodDetail {
 

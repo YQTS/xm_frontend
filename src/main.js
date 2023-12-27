@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
 
             getUserByPhone(phoneNumber.value).then(
                 res => {
-                    const user = res.data.user
+                    const user = res.data
                     userName.value = user.nick
                     gender.value = user.gender
                     birthday.value = user.birthday
